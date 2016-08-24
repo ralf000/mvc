@@ -2,12 +2,13 @@
 
  namespace app;
 
-use PDO;
+ use PDO;
 
  class DB {
 
      private static $db = NULL;
      private static $instance = NULL;
+     private static $stmt;
 
      private function __construct() {
          if (!is_null(self::$db))
@@ -31,12 +32,19 @@ use PDO;
      public function connect() {
          return self::$db;
      }
-     
-     public static function execute($sql){
+
+     public static function execute($sql) {
          $db = self::init()->connect();
-         $stmt = $db->prepare($sql);
-         $result = $stmt->execute();
+         self::$stmt = $db->prepare($sql);
+         $result = self::$stmt->execute();
          return $result;
      }
+
+     public static function query($sql) {
+         if (self::execute($sql))
+             return self::$stmt->fetchAll(PDO::FETCH_ASSOC);
+         return [];
+     }
+
  }
  
