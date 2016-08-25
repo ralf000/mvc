@@ -33,15 +33,15 @@ use PDO;
          return self::$db;
      }
 
-     public static function execute($sql) {
+     public static function execute($sql, array $prepared = []) {
          $db = self::init()->connect();
          self::$stmt = $db->prepare($sql);
-         $result = self::$stmt->execute();
+         $result = self::$stmt->execute($prepared);
          return $result;
      }
 
-     public static function query($sql, $class) {
-         if (self::execute($sql))
+     public static function query($sql, $class, array $prepared = []) {
+         if (self::execute($sql, $prepared))
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return [];
      }

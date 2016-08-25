@@ -15,13 +15,13 @@ use app\DB;
      }
 
      public static function findAll() {
-         return DB::query('SELECT * FROM ' . static::getTable(), static::class);
+         return DB::query('SELECT * FROM ' . self::getTable(), static::class);
      }
 
      static function getTable() {
-         if (empty(static::$table))
-             static::$table = end(explode('\\', static::class));
-         return static::$table;
+         if (empty(self::$table))
+             self::$table = end(explode('\\', static::class));
+         return self::$table;
      }
 
      static function setTable($table) {
