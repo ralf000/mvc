@@ -2,12 +2,10 @@
 
  namespace app\models;
 
- class User{
+ class User extends Model {
+
      public $name;
      public $email;
-     
-     public static function findAll(){
-         return \app\DB::query('SELECT * FROM user', __CLASS__);
-     }
+
  }
  
