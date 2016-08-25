@@ -2,7 +2,7 @@
 
  namespace app;
 
- use PDO;
+use PDO;
 
  class DB {
 
@@ -40,11 +40,11 @@
          return $result;
      }
 
-     public static function query($sql) {
+     public static function query($sql, $class) {
          if (self::execute($sql))
-             return self::$stmt->fetchAll(PDO::FETCH_ASSOC);
+             return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return [];
      }
-
+     
  }
  
