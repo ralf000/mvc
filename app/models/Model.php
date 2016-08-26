@@ -20,8 +20,8 @@ use app\DB;
          return (!empty($result)) ? $result : FALSE;
      }
 
-     public static function findAll() {
-         return DB::query('SELECT * FROM ' . self::getTable(), static::class);
+     public static function findAll($condition = '') {
+         return DB::query('SELECT * FROM ' . self::getTable() . ' ' . $condition . ' ', static::class);
      }
 
      public static function insert(array $params) {
@@ -44,9 +44,6 @@ use app\DB;
              'fields'       => rtrim($fields, ',')
          ];
      }
-
-//     private static function getFields(array $params){
-//     }
 
      static function getTable() {
          self::$table = end(explode('\\', static::class));

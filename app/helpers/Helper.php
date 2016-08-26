@@ -22,6 +22,15 @@ use ReflectionClass;
          }
          echo '</code>';
      }
+     
+     /**
+      * Преобразовывывет дату в привычный формат (2016-08-25 18:32:39 => 18:32:39 25-08-2016)
+      * @param string $date
+      * @return string преобразованная дата вида 
+      */
+     static public function dateConverter($date) {
+         return date('d-m-Y H:i:s', strtotime($date));
+     }
 
  }
  
