@@ -9,7 +9,6 @@ use PDO;
      use traits\TSingleton;
 
      private static $db = NULL;
-     private static $stmt;
 
      private function __construct() {
          if (!is_null(self::$db))
@@ -30,8 +29,10 @@ use PDO;
 
      public static function execute($sql, array $prepared = []) {
          $db = self::init()->connect();
-         self::$stmt = $db->prepare($sql);
-         $result = self::$stmt->execute($prepared);
+         $stmt = $db->prepare($sql);
+         $result = $stmt->execute($prepared);
+         if ($result = $db->lastInsertId())
+             return $result;
          return $result;
      }
 

@@ -31,7 +31,7 @@ use app\DB;
              $columns[$k] = $v;
          }
          $sql = 'INSERT INTO ' . static::TABLE . ' ('.  implode(', ', array_keys($columns)) .') VALUES (:'.  implode(',:', array_keys($columns)).')';
-         DB::execute($sql, $columns);
+         $this->id = DB::execute($sql, $columns);
      }
 
 //     public static function insert(array $params) {
