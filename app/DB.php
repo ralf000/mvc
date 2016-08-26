@@ -2,15 +2,14 @@
 
  namespace app;
 
-use PDO;
+ use PDO;
 
- class DB {
+ class DB extends SingletonAbstract {
 
      private static $db = NULL;
-     private static $instance = NULL;
      private static $stmt;
 
-     private function __construct() {
+     protected function __construct() {
          if (!is_null(self::$db))
              return self::$db;
 
@@ -21,12 +20,6 @@ use PDO;
              PDO::ATTR_ERRMODE    => TRUE
          ];
          self::$db = new PDO($dsn, $dbParams['user'], $dbParams['pass'], $opts);
-     }
-
-     public static function init() {
-         if (is_null(self::$instance))
-             self::$instance = new self;
-         return self::$instance;
      }
 
      public function connect() {
@@ -45,6 +38,6 @@ use PDO;
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return [];
      }
-     
+
  }
  
