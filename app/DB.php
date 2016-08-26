@@ -2,14 +2,16 @@
 
  namespace app;
 
- use PDO;
+use PDO;
 
- class DB extends SingletonAbstract {
+ class DB {
+     
+     use traits\TSingleton;
 
      private static $db = NULL;
      private static $stmt;
 
-     protected function __construct() {
+     private function __construct() {
          if (!is_null(self::$db))
              return self::$db;
 

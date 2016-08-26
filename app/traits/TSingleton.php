@@ -1,12 +1,12 @@
 <?php
 
- namespace app;
+ namespace app\traits;
 
- abstract class SingletonAbstract {
+ trait TSingleton {
 
      protected static $instance = NULL;
 
-     abstract protected function __construct();
+     private function __construct(){}
 
      public static function init() {
          if (is_null(static::$instance))
