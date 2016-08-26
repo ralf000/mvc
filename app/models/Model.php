@@ -7,7 +7,7 @@ use app\DB;
  abstract class Model implements CRUDInterface {
      
      protected static $timeOn = FALSE;
-     protected $id;
+     public $id;
      
      public static function findById($id) {
          $result = DB::query('SELECT * FROM ' . static::TABLE . ' WHERE id = ?', static::class, [$id]);
