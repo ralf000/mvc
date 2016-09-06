@@ -2,24 +2,24 @@
 
  require __DIR__ . '/autoload.php';
 
- $news = new app\models\News();
- $news->title = 'Заголовок новости';
- $news->description = 'Описание новости';
- $news->content = 'Содержание новости';
- $news->insert();
-// try {
-//  if (!filter_has_var(INPUT_GET, 'one-news')) {
-//         $news = app\models\News::getLatestNews(3);
-//         include_once __DIR__ . '/app/views/news/index.php';
-//     } else {
-//         if (filter_has_var(INPUT_GET, 'one-news') && filter_has_var(INPUT_GET, 'id'))
-//             $id = filter_input(INPUT_GET, 'id');
-//         if (!is_numeric($id))
-//             throw new Exception('Не верный id новости');
-//         $item = app\models\News::findById($id);
-//         include_once __DIR__ . '/app/views/news/view.php';
-//     }
-// } catch (Exception $ex) {
-//     \app\helpers\Helper::g($ex);
-// }
-// 
+ function g($var) {
+     echo '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
+                <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
+                <script>hljs.initHighlightingOnLoad();</script>';
+     echo '<pre><code class="html" style="border: 1px solid black;">';
+     if (is_array($var)) {
+         print_r($var);
+     } elseif (is_object($var)) {
+         $class = get_class($var);
+         Reflection::export(new ReflectionClass($class));
+     } else {
+         echo htmlspecialchars($var);
+     }
+     echo '</code>';
+ }
+
+ try {
+     app\models\News::delete(14);
+ } catch (Exception $ex) {
+     echo $ex->getMessage();
+ }

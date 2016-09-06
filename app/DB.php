@@ -2,13 +2,15 @@
 
  namespace app;
 
-use PDO;
+ use PDO;
 
  class DB {
-     
+
      use traits\TSingleton;
 
      private static $db = NULL;
+     private static $stmt;
+     private static $lastInsertId = NULL;
 
      private function __construct() {
          if (!is_null(self::$db))
@@ -29,17 +31,25 @@ use PDO;
 
      public static function execute($sql, array $prepared = []) {
          $db = self::init()->connect();
-         $stmt = $db->prepare($sql);
-         $result = $stmt->execute($prepared);
-         if ($result = $db->lastInsertId())
-             return $result;
+         self::$stmt = $db->prepare($sql);
+         $result = self::$stmt->execute($prepared);
+
+         if ($db->lastInsertId())
+             self::$lastInsertId = $db->lastInsertId();
+
          return $result;
      }
 
      public static function query($sql, $class, array $prepared = []) {
-         if (self::execute($sql, $prepared))
+         if (!self::execute($sql, $prepared))
+             return [];
+         if (strpos(strtolower($sql), 'select') !== FALSE)
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
-         return [];
+         return TRUE;
+     }
+
+     static function getLastInsertId() {
+         return self::$lastInsertId;
      }
 
  }
