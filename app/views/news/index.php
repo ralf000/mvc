@@ -5,7 +5,8 @@
         <link rel="stylesheet" href="http://getbootstrap.com/dist/css/bootstrap.min.css">
     </head>
     <body>
-        <div class="container">
+        <div class="container" style="margin-bottom: 40px; margin-top: 40px;">
+            <a class="btn btn-default pull-right" href="/?news/create"><span class="glyphicon glyphicon-plus"></span></a>
             <? if (!empty($news) && is_array($news)): ?>
                  <? foreach ($news as $item): ?>
                      <? if ($item instanceof app\models\News): ?>
@@ -15,7 +16,11 @@
                                  <small>Дата: <?= \app\helpers\Helper::dateConverter($item->created_at) ?></small>
                                  <p style='padding-top: 10px'><b><?= $item->description ?></b></p>
                                  <p style='padding: 10px 0px'><?= $item->content ?></p>
-                                 <a class="btn btn-default pull-right" href="/?one-news=1&id=<?= $item->id ?>">Подробнее...</a>
+                                 <div class="control pull-left">
+                                     <a href="/?news/edit&id=<?= $item->id ?>"><span class="glyphicon glyphicon-edit"></span></a>
+                                     <a href="/?news/remove&id=<?= $item->id ?>"><span class="glyphicon glyphicon-remove"></span></a>
+                                 </div>
+                                 <a class="btn btn-default pull-right" href="/?news/view&id=<?= $item->id ?>">Подробнее...</a>
                              </div>
                          </div>
                      <? endif; ?>

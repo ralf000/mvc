@@ -41,9 +41,11 @@
      }
 
      public static function query($sql, $class, array $prepared = []) {
-         if (!self::execute($sql, $prepared))
-             return [];
-         if (strpos(strtolower($sql), 'select') !== FALSE)
+//         if (!self::execute($sql, $prepared))
+//             return [];
+//         if (strpos(strtolower($sql), 'select') !== FALSE)
+//             return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
+         if (self::execute($sql, $prepared))
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return TRUE;
      }

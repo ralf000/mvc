@@ -18,10 +18,11 @@
          return DB::query('SELECT * FROM ' . static::TABLE . ' ' . $condition . ' ', static::class);
      }
 
-     public function insert() {
-         if (!$this->isNew())
-             return;
+     public function save() {
+         return ($this->isNew()) ? $this->insert() : $this->update();
+     }
 
+     private function insert() {
          $columns = [];
          foreach ($this as $k => $v) {
              if ($k === 'id')
@@ -31,14 +32,13 @@
              $columns[$k] = $v;
          }
          $sql = 'INSERT INTO ' . static::TABLE . ' (' . implode(', ', array_keys($columns)) . ') VALUES (:' . implode(',:', array_keys($columns)) . ')';
-         DB::execute($sql, $columns);
-         $this->id = DB::getLastInsertId();
+         if (DB::execute($sql, $columns)) {
+             $this->id = DB::getLastInsertId();
+             return TRUE;
+         }
      }
 
-     public function update() {
-         if ($this->isNew())
-             return;
-
+     private function update() {
          $columns = [];
          $queryParams = '';
          foreach ($this as $k => $v) {
@@ -48,35 +48,47 @@
                  $queryParams .= "$k = :$k,";
              $columns[":$k"] = $v;
          }
-         $queryParams .=
-                 $sql = 'UPDATE ' . static::TABLE . ' SET ' . rtrim($queryParams, ',') . ' WHERE id = :id';
-         $this->id = DB::execute($sql, $columns);
-     }
-     
-     public static function delete($id){
-         return DB::query('DELETE FROM ' . static::TABLE . ' WHERE id = ?', static::class, [$id]);
+         $sql = 'UPDATE ' . static::TABLE . ' SET ' . rtrim($queryParams, ',') . ' WHERE id = :id';
+         if (DB::execute($sql, $columns)) {
+             return TRUE;
+         }
      }
 
+     public static function delete($id) {
+         return DB::execute('DELETE FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
+     }
+
+     public function fill() {
+         foreach ($this as $k => $v) {
+             if ($k === 'created_at' || $k === 'updated_at' || $k === 'id')
+                 continue;
+             if (filter_has_var(INPUT_POST, $k))
+                 $this->$k = filter_input(INPUT_POST, $k);
+         }
+     }
 
      /**
       * Включить время сохранения и обновления у модели
       * @param bool $time
       */
-     static function timeOn($time) {
+     public static function timeOn($time) {
          static::$timeOn = $time;
      }
 
-     public function isNew() {
+     private function isNew() {
          return empty($this->id);
      }
 
-//     static function getTable() {
-//         static::$table = end(explode('\\', static::class));
-//         return static::$table;
+//     static function setTable($table) {
+//         static::$table = $table;
 //     }
 
-     static function setTable($table) {
-         static::$table = $table;
+     function setId($id) {
+         $this->id = $id;
+     }
+
+     function getId() {
+         return $this->id;
      }
 
  }
