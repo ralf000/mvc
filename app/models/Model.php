@@ -3,6 +3,8 @@
  namespace app\models;
 
  use app\DB;
+ use app\helpers\Helper;
+ use app\helpers\RequestRegistry;
 
  abstract class Model implements CRUDInterface {
 
@@ -59,11 +61,9 @@
      }
 
      public function fill() {
-         foreach ($this as $k => $v) {
-             if ($k === 'created_at' || $k === 'updated_at' || $k === 'id')
-                 continue;
-             if (filter_has_var(INPUT_POST, $k))
-                 $this->$k = filter_input(INPUT_POST, $k);
+         foreach (RequestRegistry::getRequest()->post() as $k => $v) {
+             if (property_exists(get_class($this), $k))
+                 $this->$k = $v;
          }
      }
 
