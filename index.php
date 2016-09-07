@@ -2,24 +2,12 @@
 
  require __DIR__ . '/autoload.php';
 
- function g($var) {
-     echo '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/styles/default.min.css">
-                <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.0.0/highlight.min.js"></script>
-                <script>hljs.initHighlightingOnLoad();</script>';
-     echo '<pre><code class="html" style="border: 1px solid black;">';
-     if (is_array($var)) {
-         print_r($var);
-     } elseif (is_object($var)) {
-         $class = get_class($var);
-//         Reflection::export(new ReflectionClass($class));
-         g(get_class_vars($class));
-     } else {
-         echo htmlspecialchars($var);
-     }
-     echo '</code>';
- }
-
  try {
+     
+     $model = new \app\models\News;
+     $model->title = 111;
+     \app\helpers\Helper::g($model);
+     
      if (filter_has_var(INPUT_GET, 'news/index')) {
          $news = app\models\News::findAll('ORDER BY id DESC');
          require_once 'app/views/news/index.php';

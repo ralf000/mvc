@@ -2,9 +2,9 @@
 
  namespace app\helpers;
 
-use Reflection;
-use ReflectionClass;
- 
+ use Reflection;
+ use ReflectionClass;
+
  class Helper {
 
      public static function g($var) {
@@ -14,15 +14,16 @@ use ReflectionClass;
          echo '<pre><code class="html" style="border: 1px solid black;">';
          if (is_array($var) || is_object($var)) {
              print_r($var);
-//         } elseif (is_object($var)) {
-//             $class = get_class($var);
-//             Reflection::export(new ReflectionClass($class));
+             if (is_object($var)) {
+                 $class = get_class($var);
+                 Reflection::export(new ReflectionClass($class));
+             }
          } else {
              echo htmlspecialchars($var);
          }
          echo '</code>';
      }
-     
+
      /**
       * Преобразовывывет дату в привычный формат (2016-08-25 18:32:39 => 18:32:39 25-08-2016)
       * @param string $date

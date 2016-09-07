@@ -3,7 +3,6 @@
  namespace app\models;
 
  use app\DB;
- use app\helpers\Helper;
  use app\helpers\RequestRegistry;
 
  abstract class Model implements CRUDInterface {
@@ -56,6 +55,11 @@
          }
      }
 
+     /**
+      * Удаляет запись из бд
+      * @param int $id id записи
+      * @return bool true при успешном выполнении
+      */
      public static function delete($id) {
          return DB::execute('DELETE FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
      }
@@ -67,28 +71,8 @@
          }
      }
 
-     /**
-      * Включить время сохранения и обновления у модели
-      * @param bool $time
-      */
-     public static function timeOn($time) {
-         static::$timeOn = $time;
-     }
-
      private function isNew() {
          return empty($this->id);
-     }
-
-//     static function setTable($table) {
-//         static::$table = $table;
-//     }
-
-     function setId($id) {
-         $this->id = $id;
-     }
-
-     function getId() {
-         return $this->id;
      }
 
  }
