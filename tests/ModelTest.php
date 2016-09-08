@@ -38,7 +38,6 @@ require_once dirname(__DIR__) . '/autoload.php';
      }
      
      public function updateTest() {
-         $this->model->setId($this->id);
          $this->model->title = 'блабла222';
           if (!$this->model->save())
              throw new Exception('Не удалось обновить модель в бд');
@@ -64,7 +63,7 @@ require_once dirname(__DIR__) . '/autoload.php';
      }
 
      private function getIdTest() {
-         $this->id = $this->model->getId();
+         $this->id = $this->model->id;
          if (!$this->id)
              throw new Exception('Не удалось получить id сохранной модели');
      }

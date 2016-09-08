@@ -2,11 +2,11 @@
 
  namespace app\models;
 
- class Authors extends Model {
+ class Author extends Model {
      
      const TABLE = 'authors';
 
-     public $author;
+     public $name;
 
  }
  

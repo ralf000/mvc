@@ -9,7 +9,7 @@
   * @property string $title
   * @property string $decription
   * @property string $content
-  * @property Author $author
+  * @property \app\models\Author $author
   * @property DateTime $created_at
   * @property DateTime $updated_at
   */
@@ -19,7 +19,7 @@
      
      const TABLE = 'news';
 
-     public $author_id;
+     public $author_id = 1;
      public $title;
      public $description;
      public $content;
@@ -36,7 +36,7 @@
      public function __get($name) {
          if ($name === 'author'){
              if (!empty($this->author_id))
-                 return Authors::findById($this->author_id);
+                 return Author::findById($this->author_id);
          }
      }
  }

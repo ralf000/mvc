@@ -12,7 +12,7 @@
   * @property integer $updated_at
   */
  
- class Users extends Model {
+ class User extends Model {
      
      use \app\traits\TTimestamp;
      
