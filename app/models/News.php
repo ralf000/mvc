@@ -1,7 +1,18 @@
 <?php
 
  namespace app\models;
-
+ 
+ /**
+  * This is the model class for table "news".
+  *
+  * @property integer $id
+  * @property string $title
+  * @property string $decription
+  * @property string $content
+  * @property Author $author
+  * @property DateTime $created_at
+  * @property DateTime $updated_at
+  */
  class News extends Model {
      
      use \app\traits\TTimestamp;

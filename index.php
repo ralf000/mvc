@@ -6,7 +6,6 @@
 require __DIR__ . '/autoload.php';
 
  try {
-     
      if (RequestRegistry::has('news/index')) {
          $news = News::findAll('ORDER BY id DESC');
          require_once 'app/views/news/index.php';
