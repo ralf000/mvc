@@ -7,7 +7,7 @@
      use \app\traits\TSingleton;
 
      private $values = [];
-     
+
      public static function getRequest() {
          $inst = self::init();
          if (is_null($inst->get('request'))) {
@@ -24,6 +24,18 @@
 
      protected function set($key, $val) {
          $this->values[$key] = $val;
+     }
+
+     public static function has($name, $type = INPUT_GET) {
+         $request = new Request();
+         if (is_array($name)) {
+             foreach ($name as $v) {
+                 if (!$request->hasVar($v, $type))
+                     return FALSE;
+             }
+             return TRUE;
+         }
+         return (new Request())->hasVar($name, $type);
      }
 
  }

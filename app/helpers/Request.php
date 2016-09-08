@@ -2,22 +2,27 @@
 
  namespace app\helpers;
 
- class Request {
+use Iterator;
+
+ class Request implements Iterator{
+     
+     use \app\traits\TSPLIterator;
 
      private $properties;
      private $feedback = [];
+     private $array = [1,2,3,4,5,6];
 
      public function __construct() {
          $this->init();
+         $this->position = 0;
      }
 
      private function init() {
          if (isset($_SERVER['REQUEST_METHOD'])) {
-//             $this->properties = $_REQUEST;
              $this->properties = ['post' => $_POST, 'get' => $_GET];
          }
      }
-     
+
      function post($clean = FALSE) {
          if ($clean)
              $this->clean('post');
@@ -68,6 +73,9 @@
          return $this->properties;
      }
 
+     public function hasVar($name, $type) {
+         return (filter_has_var($type, $name)) ? TRUE : FALSE;
+     }
 
  }
  

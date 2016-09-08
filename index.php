@@ -1,24 +1,23 @@
 <?php
 
- require __DIR__ . '/autoload.php';
+ use app\helpers\RequestRegistry;
+ use app\models\News;
+
+require __DIR__ . '/autoload.php';
 
  try {
      
-     $model = new \app\models\News;
-     $model->title = 111;
-     \app\helpers\Helper::g($model);
-     
-     if (filter_has_var(INPUT_GET, 'news/index')) {
-         $news = app\models\News::findAll('ORDER BY id DESC');
+     if (RequestRegistry::has('news/index')) {
+         $news = News::findAll('ORDER BY id DESC');
          require_once 'app/views/news/index.php';
-     } elseif (filter_has_var(INPUT_GET, 'news/view') && filter_has_var(INPUT_GET, 'id')) {
+     } elseif (filter_has_var(INPUT_GET, 'news/view') && RequestRegistry::has('id')) {
          $id = filter_input(INPUT_GET, 'id');
-         $item = app\models\News::findById($id);
+         $item = News::findById($id);
          require_once 'app/views/news/view.php';
-     } elseif (filter_has_var(INPUT_GET, 'news/edit') && filter_has_var(INPUT_GET, 'id')) {
+     } elseif (RequestRegistry::has(['news/edit', 'id'])) {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
              $id = filter_input(INPUT_GET, 'id');
-             $model = app\models\News::findById($id);
+             $model = News::findById($id);
              $model->fill();
              if ($model->save()) {
                  header('Location: /?news/view&id=' . $id);
@@ -26,11 +25,11 @@
              }
          }
          $id = filter_input(INPUT_GET, 'id');
-         $item = app\models\News::findById($id);
+         $item = News::findById($id);
          require_once 'app/views/news/edit.php';
-     } elseif (filter_has_var(INPUT_GET, 'news/create')) {
+     } elseif (RequestRegistry::has('news/create')) {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $model = new \app\models\News();
+             $model = new News();
              $model->fill();
              if ($model->save()) {
                  header('Location: /?news/index');
@@ -38,8 +37,8 @@
              }
          }
          require_once 'app/views/news/create.php';
-     } elseif (filter_has_var(INPUT_GET, 'news/remove') && filter_has_var(INPUT_GET, 'id')) {
-         $model = new \app\models\News();
+     } elseif (RequestRegistry::has(['news/remove', 'id'])) {
+         $model = new News();
          $id = filter_input(INPUT_GET, 'id');
          if ($model->delete($id)) {
              header('Location: /?news/index');

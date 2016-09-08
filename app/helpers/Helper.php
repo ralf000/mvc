@@ -13,7 +13,7 @@
                 <script>hljs.initHighlightingOnLoad();</script>';
          echo '<pre><code class="html" style="border: 1px solid black;">';
          if (is_array($var) || is_object($var)) {
-             print_r($var);
+             var_dump($var);
              if (is_object($var)) {
                  $class = get_class($var);
                  Reflection::export(new ReflectionClass($class));

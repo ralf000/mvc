@@ -2,11 +2,11 @@
 
  namespace app\models;
 
- class User extends Model {
+ class Users extends Model {
      
      use \app\traits\TTimestamp;
      
-     const TABLE = 'user';
+     const TABLE = 'users';
 
      public $name;
      public $email;
