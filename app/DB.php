@@ -16,7 +16,8 @@
          if (!is_null(self::$db))
              return self::$db;
 
-         $dbParams = require_once dirname(__DIR__) . '/config/db_params.php';
+//         $dbParams = require_once dirname(__DIR__) . '/config/db_params.php';
+         $dbParams = Config::getConfig()['db'];
          $dsn = "mysql:host={$dbParams['host']};dbname={$dbParams['name']}";
          $opts = [
              PDO::ERRMODE_WARNING => TRUE,

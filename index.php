@@ -4,18 +4,17 @@
  use app\models\News;
 
 require __DIR__ . '/autoload.php';
-
  try {
      if (RequestRegistry::has('news/index')) {
          $news = News::findAll('ORDER BY id DESC');
          require_once 'app/views/news/index.php';
-     } elseif (filter_has_var(INPUT_GET, 'news/view') && RequestRegistry::has('id')) {
-         $id = filter_input(INPUT_GET, 'id');
+     } elseif (RequestRegistry::has(['news/view', 'id'])) {
+         $id = RequestRegistry::get('id', TRUE);
          $item = News::findById($id);
          require_once 'app/views/news/view.php';
      } elseif (RequestRegistry::has(['news/edit', 'id'])) {
          if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-             $id = filter_input(INPUT_GET, 'id');
+             $id = RequestRegistry::get('id', TRUE);
              $model = News::findById($id);
              $model->fill();
              if ($model->save()) {
@@ -23,7 +22,7 @@ require __DIR__ . '/autoload.php';
                  exit;
              }
          }
-         $id = filter_input(INPUT_GET, 'id');
+         $id = RequestRegistry::get('id', TRUE);
          $item = News::findById($id);
          require_once 'app/views/news/edit.php';
      } elseif (RequestRegistry::has('news/create')) {
@@ -38,7 +37,7 @@ require __DIR__ . '/autoload.php';
          require_once 'app/views/news/create.php';
      } elseif (RequestRegistry::has(['news/remove', 'id'])) {
          $model = new News();
-         $id = filter_input(INPUT_GET, 'id');
+         $id = RequestRegistry::get('id', TRUE);
          if ($model->delete($id)) {
              header('Location: /?news/index');
              exit;

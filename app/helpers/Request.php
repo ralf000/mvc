@@ -2,19 +2,13 @@
 
  namespace app\helpers;
 
-use Iterator;
-
- class Request implements Iterator{
-     
-     use \app\traits\TSPLIterator;
+ class Request {
 
      private $properties;
      private $feedback = [];
-     private $array = [1,2,3,4,5,6];
 
      public function __construct() {
          $this->init();
-         $this->position = 0;
      }
 
      private function init() {
@@ -37,24 +31,24 @@ use Iterator;
 
      private function clean($method) {
          if ($method === 'post') {
-             foreach ($this->post as $k => $v) {
+             foreach ($this->post() as $k => $v) {
                  $this->properties['post'][$k] = filter_var($v);
              }
          } else {
-             foreach ($this->get as $k => $v) {
+             foreach ($this->get() as $k => $v) {
                  $this->properties['get'][$k] = filter_var($v);
              }
          }
      }
 
-     function getProperty($key) {
-         if (isset($this->properties[$key]))
-             return $this->properties[$key];
+     function getProperty($key, $type) {
+         if (isset($this->properties[$type][$key]))
+             return $this->properties[$type][$key];
          return null;
      }
 
-     function setProperty($key, $val) {
-         $this->properties[$key] = $val;
+     function setProperty($key, $val, $type) {
+         $this->properties[$type][$key] = $val;
      }
 
      function addFeedback($msg) {

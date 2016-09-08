@@ -10,19 +10,31 @@
 
      public static function getRequest() {
          $inst = self::init();
-         if (is_null($inst->get('request'))) {
-             $inst->set('request', new Request());
+         if (is_null($inst->getVar('request'))) {
+             $inst->setVar('request', new Request());
          }
-         return $inst->get("request");
+         return $inst->getVar("request");
      }
 
-     protected function get($key) {
+     public static function get($key = '', $clean = FALSE) {
+         if (empty($key))
+             return self::getRequest()->get($clean);
+         return self::getRequest()->get($clean)[$key];
+     }
+     
+     public static function post($key = '', $clean = FALSE) {
+         if (empty($key))
+             return self::getRequest()->post($clean);
+         return self::getRequest()->post($clean)[$key];
+     }
+
+     protected function getVar($key) {
          if (isset($this->values[$key]))
              return $this->values[$key];
          return null;
      }
 
-     protected function set($key, $val) {
+     protected function setVar($key, $val) {
          $this->values[$key] = $val;
      }
 
