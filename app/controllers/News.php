@@ -17,7 +17,7 @@
          if (empty($id))
              throw new \Exception('Неверный id');
          $article = \app\models\News::findById($id);
-         if (!$article)
+         if (empty($article))
              throw new \Exception('Данной новости не существует');
          $this->view->title = $article->title;
          $this->view->article = $article;
