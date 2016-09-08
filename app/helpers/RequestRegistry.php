@@ -16,13 +16,13 @@
          return $inst->getVar("request");
      }
 
-     public static function get($key = '', $clean = FALSE) {
+     public static function get($key = '', $clean = TRUE) {
          if (empty($key))
              return self::getRequest()->get($clean);
          return self::getRequest()->get($clean)[$key];
      }
      
-     public static function post($key = '', $clean = FALSE) {
+     public static function post($key = '', $clean = TRUE) {
          if (empty($key))
              return self::getRequest()->post($clean);
          return self::getRequest()->post($clean)[$key];

@@ -34,17 +34,5 @@
          return date('d-m-Y H:i:s', strtotime($date));
      }
 
-     static function viewPathHandler($view) {
-         $exts = Config::getConfig()['config']['avaliableExtensions'];
-         if (substr($view, 0, 1) !== '/')
-             $view .= '/';
-         foreach ($exts as $ext) {
-             if (strpos($view, '.' . $ext) !== FALSE)
-                 return $view;
-         }
-         $view .= '.php';
-         return $view;
-     }
-
  }
  

@@ -7,8 +7,8 @@
     <body>
         <div class="container" style="margin-bottom: 40px; margin-top: 40px;">
             <a class="btn btn-default pull-right" href="/?news/create"><span class="glyphicon glyphicon-plus"></span></a>
-            <? if (!empty($news) && is_array($news)): ?>
-                 <? foreach ($news as $item): ?>
+            <? if (!empty($this->news) && is_array($this->news)): ?>
+                 <? foreach ($this->news as $item): ?>
                      <? if ($item instanceof app\models\News): ?>
                          <div class="row">
                              <div class="col-md-12">

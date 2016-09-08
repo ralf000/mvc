@@ -4,7 +4,12 @@
  use app\models\News;
 
 require __DIR__ . '/autoload.php';
+
  try {
+     
+     $c = new app\controllers\News();
+     $c->action('view');
+     
      if (RequestRegistry::has('news/index')) {
          $news = News::findAll('ORDER BY id DESC');
          require_once 'app/views/news/index.php';
