@@ -13,7 +13,11 @@
 
      private function init() {
          if (isset($_SERVER['REQUEST_METHOD'])) {
-             $this->properties = ['post' => $_POST, 'get' => $_GET];
+             $this->properties = [
+                 'post'   => $_POST,
+                 'get'    => $_GET,
+                 'server' => $_SERVER
+             ];
          }
      }
 
@@ -27,6 +31,18 @@
          if ($clean)
              $this->clean('get');
          return $this->properties['get'];
+     }
+     
+     function server() {
+         return $this->properties['server'];
+     }
+     
+     public static function isGet(){
+         return ($_SERVER['REQUEST_METHOD'] === 'GET');
+     }
+     
+     public static function isPost(){
+         return ($_SERVER['REQUEST_METHOD'] === 'POST');
      }
 
      private function clean($method) {

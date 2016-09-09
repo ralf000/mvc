@@ -15,7 +15,8 @@
                                  <small class="pull-right">Автор: <?= $this->article->author->name ?></small>
                                  <p style='padding-top: 10px'><b><?= $this->article->description ?></b></p>
                                  <p style='padding: 10px 0px'><?= $this->article->content ?></p>
-                                 <a class="pull-right btn btn-default" href="/news">Назад</a>
+                                 <a class="pull-left btn btn-default" href="/news/edit?id=<?= $this->article->id ?>"><span class="glyphicon glyphicon-edit"></span></a>
+                                 <a class="pull-right btn btn-default" href="/news/index">Назад</a>
                              </div>
                          </div>
                      <? endif; ?>

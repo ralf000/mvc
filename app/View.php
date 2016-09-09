@@ -2,6 +2,10 @@
 
  namespace app;
 
+ use app\common\controllers\FrontController;
+ use app\helpers\Helper;
+ use Exception;
+
  class View {
 
      private $cfg = NULL;
@@ -12,7 +16,10 @@
      public function __construct() {
          if (empty($this->viewPath)) {
              $this->cfg = Config::getConfig()['config'];
-             $this->viewPath = $this->cfg['viewPath'];
+             if (FrontController::isAdminPanel())
+                 $this->viewPath = $this->cfg['adminViewPath'];
+             else
+                 $this->viewPath = $this->cfg['viewPath'];
          }
      }
 
@@ -23,15 +30,13 @@
 
      public function render($view) {
          ob_start();
-         include $view;
+         require_once $view;
          $content = ob_get_contents();
          ob_end_clean();
          return $content;
      }
 
      private function viewPathHandler($view) {
-         if (substr($view, 0, 1) !== '/')
-             $view = '/' . $view;
          foreach ($this->cfg['avaliableExtensions'] as $ext) {
              if (strpos($view, '.' . $ext) !== FALSE)
                  return $this->viewPath . $view;

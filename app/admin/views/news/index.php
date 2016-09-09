@@ -6,6 +6,7 @@
     </head>
     <body>
         <div class="container" style="margin-bottom: 40px; margin-top: 40px;">
+            <a class="btn btn-default pull-right" href="/news/create"><span class="glyphicon glyphicon-plus"></span></a>
             <? if (!empty($this->news) && is_array($this->news)): ?>
                  <? foreach ($this->news as $item): ?>
                      <? if ($item instanceof app\models\News): ?>
@@ -16,6 +17,10 @@
                                  <small class="pull-right">Автор: <?= $item->author->name ?></small>
                                  <p style='padding-top: 10px'><b><?= $item->description ?></b></p>
                                  <p style='padding: 10px 0px'><?= $item->content ?></p>
+                                 <div class="control pull-left">
+                                     <a href="/news/edit?id=<?= $item->id ?>"><span class="glyphicon glyphicon-edit"></span></a>
+                                     <a href="/news/remove?id=<?= $item->id ?>"><span class="glyphicon glyphicon-remove"></span></a>
+                                 </div>
                                  <a class="btn btn-default pull-right" href="/news/view?id=<?= $item->id ?>">Подробнее...</a>
                              </div>
                          </div>

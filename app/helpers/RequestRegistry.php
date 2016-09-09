@@ -27,6 +27,20 @@
              return self::getRequest()->post($clean);
          return self::getRequest()->post($clean)[$key];
      }
+     
+     public static function server($key = '') {
+         if (empty($key))
+             return self::getRequest()->server();
+         return self::getRequest()->server()[$key];
+     }
+     
+     public static function isGet(){
+         return Request::isGet();
+     }
+     
+     public static function isPost(){
+         return Request::isPost();
+     }
 
      protected function getVar($key) {
          if (isset($this->values[$key]))
