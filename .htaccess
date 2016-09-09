@@ -1,3 +1,10 @@
 RewriteEngine on
 
-RewriteRule ^.*$ index.php [L]
+#не файл
+RewriteCond %{REQUEST_FILENAME} !-f
+# не папка
+RewriteCond %{REQUEST_FILENAME} !-d
+# не симлинк
+RewriteCond %{REQUEST_FILENAME} !-l
+# тогда перевести любой запрос перевести на index.php
+RewriteRule ^(.*)$ index.php [QSA]
