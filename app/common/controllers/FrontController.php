@@ -23,9 +23,6 @@ use ReflectionClass;
      }
 
      public function run() {
-         \app\helpers\Helper::g($this->getController());
-         \app\helpers\Helper::g($this->getAction());
-         exit;
          $this->beforeAction();
          $controller = implode('\\', $this->getController());
          $action = $this->getAction();
