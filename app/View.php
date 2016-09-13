@@ -42,7 +42,7 @@
                  return $this->viewPath . $view;
          }
          $view .= '.php';
-         return $this->viewPath . $view;
+         return (FrontController::isAdminPanel()) ?  $this->cfg['viewPath'] . $view : $this->viewPath . $view;
      }
 
  }

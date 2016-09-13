@@ -1,0 +1,20 @@
+15:29:28 13-09-2016
+Данной новости не существует
+C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+24
+
+15:29:43 13-09-2016
+Данной новости не существует
+C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+24
+
+15:37:22 13-09-2016
+Данной новости не существует
+File: C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+Line: 24
+
+15:38:56 13-09-2016
+Не могу подключиться к бд
+File: C:\OpenServer\domains\mvc\app\DB.php
+Line: 27
+

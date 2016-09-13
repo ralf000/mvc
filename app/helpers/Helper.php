@@ -32,10 +32,11 @@ use ReflectionClass;
      static public function dateConverter($date) {
          return date('d-m-Y H:i:s', strtotime($date));
      }
-//     
-//     public static function isFile($path){
-//         return (is_file(RequestRegistry::server('DOCUMENT_ROOT') .'/'. $path)) ? TRUE : FALSE;
-//     }
+     
 
+     static function redirect($path){
+         header("Location: $path");
+         exit;
+     }
  }
  

@@ -3,7 +3,8 @@
  namespace app\models;
 
  use app\DB;
- use app\helpers\RequestRegistry;
+ use app\exceptions\MultiException;
+ use app\helpers\Validator;
 
  abstract class Model implements CRUDInterface {
 
@@ -64,10 +65,13 @@
          return DB::execute('DELETE FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
      }
 
-     public function fill() {
-         foreach (RequestRegistry::getRequest()->post() as $k => $v) {
-             if (property_exists(get_class($this), $k))
+     public function fill(array $data, array $required = []) {
+         if ($exceptions = Validator::validateForm($data, $required))
+             throw $exceptions;
+         foreach ($data as $k => $v) {
+             if (property_exists(get_class($this), $k)) {
                  $this->$k = $v;
+             }
          }
      }
 

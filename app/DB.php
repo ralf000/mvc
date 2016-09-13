@@ -2,7 +2,9 @@
 
  namespace app;
 
+ use app\exceptions\DBException;
  use PDO;
+ use PDOException;
 
  class DB {
 
@@ -16,14 +18,16 @@
          if (!is_null(self::$db))
              return self::$db;
 
-//         $dbParams = require_once dirname(__DIR__) . '/config/db_params.php';
          $dbParams = Config::getConfig()['db'];
          $dsn = "mysql:host={$dbParams['host']};dbname={$dbParams['name']}";
-         $opts = [
-             PDO::ERRMODE_WARNING => TRUE,
-             PDO::ATTR_ERRMODE    => TRUE
-         ];
-         self::$db = new PDO($dsn, $dbParams['user'], $dbParams['pass'], $opts);
+         try {
+             self::$db = new PDO($dsn, $dbParams['user'] . '1', $dbParams['pass']);
+             $this->connect()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+         } catch (PDOException $ex) {
+             $dbEx = new DBException('Не могу подключиться к бд');
+             $dbEx->PDO = $ex;
+             throw $dbEx;
+         }
      }
 
      public function connect() {
@@ -32,8 +36,14 @@
 
      public static function execute($sql, array $prepared = []) {
          $db = self::init()->connect();
-         self::$stmt = $db->prepare($sql);
-         $result = self::$stmt->execute($prepared);
+         try {
+             self::$stmt = $db->prepare($sql);
+             $result = self::$stmt->execute($prepared);
+         } catch (PDOException $ex) {
+             $dbEx = new DBException('Ошибка запроса к бд');
+             $dbEx->PDO = $ex;
+             throw $dbEx;
+         }
 
          if ($db->lastInsertId())
              self::$lastInsertId = $db->lastInsertId();
@@ -42,10 +52,6 @@
      }
 
      public static function query($sql, $class, array $prepared = []) {
-//         if (!self::execute($sql, $prepared))
-//             return [];
-//         if (strpos(strtolower($sql), 'select') !== FALSE)
-//             return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          if (self::execute($sql, $prepared))
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return TRUE;

@@ -3,6 +3,9 @@
  namespace app\common\controllers;
 
 use app\Config;
+use app\exceptions\DBException;
+use app\exceptions\ModelNotFoundException;
+use app\helpers\Logger;
 use app\helpers\RequestRegistry;
 use app\View;
 use Exception;
@@ -33,7 +36,21 @@ use ReflectionClass;
              throw new Exception('Action ' . (string) $action . ' not found');
          $controllerInstance = $rc->newInstance();
          $method = $rc->getMethod($action);
-         $method->invoke($controllerInstance);
+         try {
+             $method->invoke($controllerInstance);
+         } catch (ModelNotFoundException $ex) {
+             $view = new View();
+             $view->exception = $ex;
+             Logger::log($ex);
+             $view->display('errors/404');
+             exit;
+         } catch (DBException $ex) {
+             $view = new View();
+             $view->exception = $ex;
+             Logger::log($ex);
+             $view->display('errors/db-error');
+             exit;
+         }
      }
 
      protected function beforeAction() {
@@ -45,7 +62,7 @@ use ReflectionClass;
              $this->setNamespace(Config::getConfig()['config']['adminControllerNamespace']);
          else
              $this->setNamespace(Config::getConfig()['config']['controllerNamespace']);
-             
+
          list($link, $params) = explode('?', trim($url, '/'));
          $this->parseLink($link);
          $this->parseParams($params);
@@ -94,7 +111,7 @@ use ReflectionClass;
      }
 
      function setController($controller) {
-         if (is_array($controller)){
+         if (is_array($controller)) {
              $this->controller = array_map(function($e) {
                  return ucfirst($e) . 'Controller';
              }, $controller);
@@ -114,7 +131,7 @@ use ReflectionClass;
      function getParams() {
          return $this->params;
      }
-     
+
      function getNamespace() {
          return $this->namespace;
      }
@@ -123,6 +140,5 @@ use ReflectionClass;
          $this->namespace = $namespace;
      }
 
- 
  }
  
