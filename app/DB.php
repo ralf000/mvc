@@ -21,7 +21,7 @@
          $dbParams = Config::getConfig()['db'];
          $dsn = "mysql:host={$dbParams['host']};dbname={$dbParams['name']}";
          try {
-             self::$db = new PDO($dsn, $dbParams['user'] . '1', $dbParams['pass']);
+             self::$db = new PDO($dsn, $dbParams['user'], $dbParams['pass']);
              $this->connect()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
          } catch (PDOException $ex) {
              $dbEx = new DBException('Не могу подключиться к бд');

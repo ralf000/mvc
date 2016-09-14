@@ -18,3 +18,29 @@ Line: 24
 File: C:\OpenServer\domains\mvc\app\DB.php
 Line: 27
 
+18:01:10 13-09-2016
+Не могу подключиться к бд
+File: C:\OpenServer\domains\mvc\app\DB.php
+Line: 27
+
+18:01:33 13-09-2016
+Данной новости не существует
+File: C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+Line: 24
+
+18:01:33 13-09-2016
+Данной новости не существует
+File: C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+Line: 24
+
+Тип: warning
+Сообщение: Данной новости не существует
+C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+24
+
+12:19:01 14-09-2016
+Тип: warning
+Сообщение: Данной новости не существует
+C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+24
+

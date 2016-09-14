@@ -2,10 +2,10 @@
 
  namespace app\helpers;
 
- use app\Config;
- use app\exceptions\FileException;
+use app\Config;
+use app\exceptions\FileException;
 
- class Logger {
+ class LoggerOld {
 
      private static $message = NULL;
      private static $logPath = NULL;

@@ -20,7 +20,7 @@ use Exception;
          if (empty($id))
              throw new Exception('Неверный id');
          $article = News::findById($id);
-         if (empty($article))
+         if (!$article)
              throw new ModelNotFoundException('Данной новости не существует');
          $this->view->article = $article;
          $this->view->display('news/view.php');
