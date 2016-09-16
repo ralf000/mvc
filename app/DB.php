@@ -6,7 +6,8 @@
  use PDO;
  use PDOException;
 
- class DB {
+ class DB
+ {
 
      use traits\TSingleton;
 
@@ -14,7 +15,8 @@
      private static $stmt;
      private static $lastInsertId = NULL;
 
-     private function __construct() {
+     private function __construct()
+     {
          if (!is_null(self::$db))
              return self::$db;
 
@@ -30,11 +32,13 @@
          }
      }
 
-     public function connect() {
+     public function connect()
+     {
          return self::$db;
      }
 
-     public static function execute($sql, array $prepared = []) {
+     public static function execute($sql, array $prepared = [])
+     {
          $db = self::init()->connect();
          try {
              self::$stmt = $db->prepare($sql);
@@ -51,13 +55,25 @@
          return $result;
      }
 
-     public static function query($sql, $class, array $prepared = []) {
+     public static function query($sql, $class, array $prepared = [])
+     {
          if (self::execute($sql, $prepared))
              return self::$stmt->fetchAll(PDO::FETCH_CLASS, $class);
          return TRUE;
      }
 
-     static function getLastInsertId() {
+     //используем генератор (через yield)
+     public static function queryEach($sql, $class, array $prepared = [])
+     {
+         if (self::execute($sql, $prepared)) {
+             self::$stmt->setFetchMode(PDO::FETCH_CLASS, $class);
+             while ($model = self::$stmt->fetch())
+                 yield $model;
+         }
+     }
+
+     static function getLastInsertId()
+     {
          return self::$lastInsertId;
      }
 

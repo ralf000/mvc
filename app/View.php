@@ -2,9 +2,9 @@
 
  namespace app;
 
- use app\common\controllers\FrontController;
- use app\helpers\Helper;
- use Exception;
+use app\common\controllers\FrontController;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
  class View {
 

@@ -41,14 +41,14 @@ use ReflectionClass;
          } catch (ModelNotFoundException $ex) {
              $view = new View();
              $view->exception = $ex;
-             $logger = new Logger();
+             $logger = new \Psr\Log\Logger();
              $logger->warning($ex->getMessage(), [$ex->getFile(), $ex->getLine()]);
              $view->display('errors/404');
              exit;
          } catch (DBException $ex) {
              $view = new View();
              $view->exception = $ex;
-             $logger = new Logger();
+             $logger = new \Psr\Log\Logger();
              $logger->critical($ex->getMessage(), [$ex->getFile(), $ex->getLine()]);
              $view->display('errors/db-error');
              exit;

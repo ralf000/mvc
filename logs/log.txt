@@ -44,3 +44,9 @@ C:\OpenServer\domains\mvc\app\controllers\NewsController.php
 C:\OpenServer\domains\mvc\app\controllers\NewsController.php
 24
 
+15:38:31 14-09-2016
+Тип: warning
+Сообщение: Данной новости не существует
+C:\OpenServer\domains\mvc\app\controllers\NewsController.php
+24
+

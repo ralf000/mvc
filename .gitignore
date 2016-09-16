@@ -6,3 +6,5 @@ nbdist/
 nbactions.xml
 .nb-gradle/
 config
+vendor/
+logs/

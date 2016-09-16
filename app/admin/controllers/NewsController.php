@@ -2,6 +2,7 @@
 
  namespace app\admin\controllers;
 
+ use app\admin\components\AdminDataTable;
  use app\common\controllers\Controller;
  use app\exceptions\ModelNotFoundException;
  use app\exceptions\MultiException;
@@ -10,13 +11,29 @@
  use app\models\News;
  use Exception;
 
- class NewsController extends Controller
+ class NewsController
+        extends Controller
  {
 
      public function actionIndex()
      {
+//         $this->view->news = News::findAllWithGenerator('ORDER BY id DESC');
          $this->view->news = News::findAll('ORDER BY id DESC');
          $this->view->display('news/index.php');
+     }
+
+     public function actionTest()
+     {
+         $models = News::findAllWithGenerator('ORDER BY id DESC');
+         $thead = ['id', 'title', 'description', 'content', 'author', 'created_at', 'updated_at'];
+         foreach ($thead as $cell) {
+             $functions[] = function(\app\models\Model $object) use ($cell) {
+                 return [$cell => $object->$cell];
+             };
+         }
+         $adminDataTable = new AdminDataTable($models, $functions, $thead);
+         $this->view->news = $adminDataTable->render();
+         $this->view->display('news/test.php');
      }
 
      public function actionView()

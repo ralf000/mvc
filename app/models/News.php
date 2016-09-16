@@ -7,7 +7,7 @@
   *
   * @property integer $id
   * @property string $title
-  * @property string $decription
+  * @property string $description
   * @property string $content
   * @property \app\models\Author $author
   * @property DateTime $created_at

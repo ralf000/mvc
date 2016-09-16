@@ -6,25 +6,44 @@
  use app\exceptions\MultiException;
  use app\helpers\Validator;
 
- abstract class Model implements CRUDInterface {
+ abstract class Model
+        implements CRUDInterface
+ {
 
      protected static $timeOn = FALSE;
      public $id;
 
-     public static function findById($id) {
+     public static function findById($id)
+     {
          $result = DB::query('SELECT * FROM ' . static::TABLE . ' WHERE id = ?', static::class, [$id]);
          return (!empty($result)) ? $result[0] : FALSE;
      }
 
-     public static function findAll($condition = '') {
+     public static function findAll($condition = '')
+     {
          return DB::query('SELECT * FROM ' . static::TABLE . ' ' . $condition . ' ', static::class);
      }
 
-     public function save() {
+     /**
+      * получаем данные из дб через генератор
+      * @param string $condition условия запроса (WHERE ...)
+      * @return array массив моделей
+      */
+     public static function findAllWithGenerator($condition = '')
+     {
+         $models = DB::queryEach('SELECT * FROM ' . static::TABLE . ' ' . $condition . ' ', static::class);
+         foreach ($models as $model)
+             $output[] = $model;
+         return $output;
+     }
+
+     public function save()
+     {
          return ($this->isNew()) ? $this->insert() : $this->update();
      }
 
-     private function insert() {
+     private function insert()
+     {
          $columns = [];
          foreach ($this as $k => $v) {
              if ($k === 'id')
@@ -40,7 +59,8 @@
          }
      }
 
-     private function update() {
+     private function update()
+     {
          $columns = [];
          $queryParams = '';
          foreach ($this as $k => $v) {
@@ -61,11 +81,13 @@
       * @param int $id id записи
       * @return bool true при успешном выполнении
       */
-     public static function delete($id) {
+     public static function delete($id)
+     {
          return DB::execute('DELETE FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
      }
 
-     public function fill(array $data, array $required = []) {
+     public function fill(array $data, array $required = [])
+     {
          if ($exceptions = Validator::validateForm($data, $required))
              throw $exceptions;
          foreach ($data as $k => $v) {
@@ -75,7 +97,8 @@
          }
      }
 
-     private function isNew() {
+     private function isNew()
+     {
          return empty($this->id);
      }
 

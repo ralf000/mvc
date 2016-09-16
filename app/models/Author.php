@@ -7,6 +7,11 @@
      const TABLE = 'authors';
 
      public $name;
+     
+     public function __toString()
+     {
+         return $this->name;
+     }
 
  }
  

@@ -2,20 +2,26 @@
 
  namespace app\helpers;
 
-use app\Config;
-use app\exceptions\FileException;
+ use app\Config;
+ use app\exceptions\FileException;
 
- class LoggerOld {
+ /**
+  * @deprecated Добавлен более совершенный логгер app\components\logger\Logger
+  */
+ class Logger
+ {
 
      private static $message = NULL;
      private static $logPath = NULL;
 
-     private static function init() {
+     private static function init()
+     {
          if (is_null(self::$logPath))
              self::$logPath = Config::getConfig()['config']['logPath'] . 'log.txt';
      }
 
-     public static function log($message) {
+     public static function log($message)
+     {
          self::init();
          if (is_object($message) && $message instanceof \Exception)
              $message = self::messageHandler($message);
@@ -24,16 +30,19 @@ use app\exceptions\FileException;
          self::write(self::$message);
      }
 
-     private static function write($data) {
+     private static function write($data)
+     {
          if (!file_put_contents(self::$logPath, $data . PHP_EOL, FILE_APPEND))
              throw new FileException('Запись в лог не удалась');
      }
 
-     private static function messageHandler(\Exception $data) {
+     private static function messageHandler(\Exception $data)
+     {
          return $data->getMessage() . PHP_EOL . 'File: ' . $data->getFile() . PHP_EOL . 'Line: ' . $data->getLine() . PHP_EOL;
      }
 
-     public function __destruct() {
+     public function __destruct()
+     {
          self::$message = NULL;
      }
 
